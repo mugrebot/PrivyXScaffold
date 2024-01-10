@@ -1,3 +1,82 @@
+# Scaffold-Eth with Privy Integration
+
+This project integrates Privy with the scaffold-eth template, enabling users to connect their wallets and interact with Ethereum networks seamlessly. The integration includes support for various login methods and network configurations.
+
+## Issues
+
+This currently uses an app-id featued on the privy docs, this is a severely rate limited app - id and is NOT production ready, you'll need to sign up on their site and contact their team for a proper appid
+
+## Features
+
+- Connect with multiple login methods including email, wallet, SMS, and Twitter.
+- Support for creating embedded wallets for users without an existing wallet.
+- Default chain set to Hardhat, easily changeable to suit your application needs.
+- Customizable appearance and user experience.
+
+## Setup
+
+To get started, set up the `PrivyProvider` in your `_app.tsx` file with the required configurations:
+
+```javascript
+<PrivyProvider
+  appId={"your-privy-app-id"}
+  onSuccess={handleLogin}
+  config={{
+    loginMethods: ["email", "wallet", "sms", "twitter"],
+    defaultChain: hardhat,
+    supportedChains: [
+      hardhat,
+      polygon,
+      mainnet,
+      base,
+      baseGoerli,
+      baseSepolia,
+      polygonMumbai,
+      polygonZkEvmTestnet,
+      optimism,
+    ],
+    embeddedWallets: {
+      createOnLogin: "users-without-wallets",
+    },
+    appearance: {
+      showWalletLoginFirst: true,
+      theme: "light",
+      accentColor: "#676FFF",
+      logo: "https://your-logo-url",
+    },
+  }}
+>
+  {/* Your application components */}
+</PrivyProvider>
+```
+
+## Changing the Default Chain and Supported Chains
+
+To change the default chain or the list of supported chains, modify the defaultChain and supportedChains properties in the PrivyProvider configuration.
+
+By default i have it set to hardhat, just add your desired chain in \_app.tsx
+
+Example:
+
+```javascript
+
+config={{
+ // ...
+ defaultChain: hardhat,
+ supportedChains: [polygon, mainnet, goerli],
+ // ...
+}}
+
+```
+
+## Disconnecting and Logging Out
+
+This feature is kinda janky lol i have to call both disconnect and logout to prevent an edge case where a user logs out with an external wallet and then can't reconnect after refreshing etc.
+
+If a user is authenticated but not connected to a wallet, provide options to either connect to an existing wallet or create a new one.
+
+Check out the privy docs https://docs.privy.io/ if you have more questions
+
 # 🏗 Scaffold-ETH 2
 
 <h4 align="center">

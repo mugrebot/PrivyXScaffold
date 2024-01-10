@@ -14,6 +14,7 @@ import {
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { getTargetNetworks } from "~~/utils/scaffold-eth";
+import { usePrivy } from "@privy-io/react-auth";
 
 const allowedNetworks = getTargetNetworks();
 
@@ -31,6 +32,7 @@ export const AddressInfoDropdown = ({
   blockExplorerAddressLink,
 }: AddressInfoDropdownProps) => {
   const { disconnect } = useDisconnect();
+  const { logout, authenticated } = usePrivy();
 
   const [addressCopied, setAddressCopied] = useState(false);
 
@@ -41,6 +43,15 @@ export const AddressInfoDropdown = ({
     dropdownRef.current?.removeAttribute("open");
   };
   useOutsideClick(dropdownRef, closeDropdown);
+
+  const handleLogout = async () => {
+    if (authenticated) {
+      logout;
+      disconnect();
+    }
+
+    logout;
+  }
 
   return (
     <>
@@ -120,7 +131,7 @@ export const AddressInfoDropdown = ({
             <button
               className="menu-item text-error btn-sm !rounded-xl flex gap-3 py-3"
               type="button"
-              onClick={() => disconnect()}
+              onClick={handleLogout}
             >
               <ArrowLeftOnRectangleIcon className="h-6 w-4 ml-2 sm:ml-0" /> <span>Disconnect</span>
             </button>
