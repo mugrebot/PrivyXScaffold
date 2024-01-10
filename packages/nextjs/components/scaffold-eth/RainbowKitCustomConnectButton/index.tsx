@@ -2,7 +2,7 @@ import { Balance } from "../Balance";
 import { AddressInfoDropdown } from "./AddressInfoDropdown";
 import { AddressQRCodeModal } from "./AddressQRCodeModal";
 import { WrongNetworkDropdown } from "./WrongNetworkDropdown";
-import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useConnectWallet, usePrivy, useWallets } from "@privy-io/react-auth";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Address } from "viem";
 import { useAccount, useNetwork, useProvider } from "wagmi";
@@ -25,18 +25,23 @@ import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
 
   const handlePrivyConnect = async () => {
     //login state is a bit wonky heres my workaround for now
-    connectWallet();
+    if (authenticated && ready) {
+      logout
+    }
+  
     if (!authenticated && !user?.wallet) {
       login();
     } else if (authenticated && !user?.wallet) {
       createWallet();
     }
+    else logout();
+
+
+
   };
 
   const { address } = useAccount();
-  console.log(address);
-
-  console.log(user);
+  
 
   const { wallets } = useWallets();
 

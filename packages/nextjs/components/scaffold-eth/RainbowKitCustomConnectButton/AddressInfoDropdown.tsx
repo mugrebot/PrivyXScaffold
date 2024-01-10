@@ -45,12 +45,8 @@ export const AddressInfoDropdown = ({
   useOutsideClick(dropdownRef, closeDropdown);
 
   const handleLogout = async () => {
-    if (authenticated) {
-      logout;
-      disconnect();
-    }
-
-    logout;
+    logout();
+    disconnect();
   }
 
   return (
